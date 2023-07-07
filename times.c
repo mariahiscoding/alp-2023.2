@@ -7,6 +7,12 @@ struct pessoa {
     int habilidade;
 };
 
+int compararNome (const void *a, const void *b) {
+    int pri = ((struct pessoa *)a)->nome;
+    int seg = ((struct pessoa *)b)->nome; 
+    return (seg - pri); //Explicação vista no site galirows
+} 
+
 int compararHabilidade (const void *a, const void *b) {
     int pri = ((struct pessoa *)a)->habilidade;
     int seg = ((struct pessoa *)b)->habilidade; 
@@ -33,6 +39,7 @@ int main () {
   for(int ti = 1; ti < n; ti++){
     printf("Time %d\n", ti);
     for (int j = h; j < n; j = j+t ) {
+        qsort(item, n, sizeof(struct pessoa), compararNome);
         printf("%s\n", item[j].nome);
     }
     h++;
