@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,11 +8,12 @@ struct pessoa {
     int habilidade;
 };
 
-int compararNome (const void *a, const void *b) {
-    int pri = ((struct pessoa *)a)->nome;
-    int seg = ((struct pessoa *)b)->nome; 
-    return (seg - pri); //Explicação vista no site galirows
-} 
+int ordenarNome(const void* a, const void* b){
+    char* string1 = (char*)a;
+    char* string2 = (char*)b;
+
+    return strcmp(string1, string2);
+}
 
 int compararHabilidade (const void *a, const void *b) {
     int pri = ((struct pessoa *)a)->habilidade;
@@ -20,7 +22,7 @@ int compararHabilidade (const void *a, const void *b) {
 }
 
 int main () {
-    int i, n, t, h  = 0;
+    int i, n, t, pessoa1 = 0;
     scanf("%d %d", &n, &t);
     int n_habilidade[n];
     char nomes[n][20];
@@ -34,17 +36,25 @@ int main () {
     }
 
     qsort(item, n, sizeof(struct pessoa), compararHabilidade);
-
-
-  for(int ti = 1; ti < n; ti++){
-    printf("Time %d\n", ti);
-    for (int j = h; j < n; j = j+t ) {
-        qsort(item, n, sizeof(struct pessoa), compararNome);
-        printf("%s\n", item[j].nome);
+    for (int time = 0; time < t; time++){
+        printf("Time %d\n", time+1);
+        int m = 0;
+        for (int j = pessoa1; j < n; j += t){
+            m++;
+        }
+        char equipe [m][20];
+        int posi = 0;
+        for (int j = pessoa1; j < n; j += t){
+            strcpy(equipe[posi], item[j].nome);
+            posi++;
+        }
+        qsort(equipe, m, sizeof(equipe[0]), ordenarNome);
+        for (int k = 0; k < m; k++){
+            printf("%s\n", equipe[k]);
+        }
+        pessoa1++;
+        printf("\n");
+        
     }
-    h++;
-    printf("\n\n");
-  }
-
     return 0;
 }
